@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>地図アプリ</title>
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 
 <body>
@@ -39,11 +40,22 @@
 
     </div>
     <div class="right">
-        <!-- TODO: 地図の挿入 -->
+        <div id="map"></div>
+
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
     </div>
     <script src="src/search.js"></script>
     <script src="src/facility.js"></script>
     <script src="src/main.js"></script>
+    <script>
+        // 地図を作成（キャンパス中心に設定）
+        var map = L.map('map').setView([34.65265, 135.59455], 17);
+
+        // OpenStreetMapタイルを読み込み
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);</script>
 </body>
 
 </html>
