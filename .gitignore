@@ -1,0 +1,33 @@
+# OSごとの不要ファイル
+.DS_Store
+Thumbs.db
+
+# ビルド/出力物
+build/
+out/
+
+# 環境変数や秘密情報
+.env
+.env.local
+.env.*.local
+
+# IDE / エディタ関連
+.vscode/
+.idea/
+*.swp
+
+# テスト関連
+coverage/
+*.lcov
+
+# キャッシュ
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.svelte-kit/
+.storybook-out/
+
+# Logs
+logs
+*.log
