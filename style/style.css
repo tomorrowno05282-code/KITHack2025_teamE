@@ -1,0 +1,165 @@
+/* 全体レイアウト */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 左右パネル */
+.left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.right {
+    flex: 3;
+    background-color: #e6e6e6; /* 地図が実装されるまで仮の背景 */
+}
+
+/* 左パネルのヘッダー */
+.left-header {
+    display: flex;
+    height: 50px;
+    border-bottom: 1px solid #ccc;
+}
+
+.left-header button {
+    flex: 1;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.left-header button:hover {
+    background-color: #ddd;
+}
+
+.left-header button.active {
+    background-color: #4285f4;
+    color: #fff;
+}
+
+/* 検索モード内でレイアウトを縦に分割 */
+.mode-search {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* 検索バー */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.search-icon {
+    font-size: 18px;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 6px 8px;
+    font-size: 14px;
+}
+
+.search-bar button {
+    padding: 6px 12px;
+    border: none;
+    background-color: #4285f4;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-bar button:hover {
+    background-color: #3367d6;
+}
+
+
+/* 結果欄を残りの領域に広げる */
+#listcontena {
+    flex: 1;
+    width: auto;
+    margin: 0;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+/* 結果カード */
+.result-card {
+    width: auto;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fefefe;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+/* 施設を探すモード */
+.mode-sisetu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mode-sisetu p {
+    margin: 0 0 10px;
+    font-weight: bold;
+}
+
+.mode-sisetu label {
+    display: block;
+    background-color: #fff;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mode-sisetu input[type="radio"] {
+    display: none;
+}
+
+.mode-sisetu input[type="radio"]:checked + span {
+    background-color: #4285f4;
+    color: #fff;
+    border-color: #4285f4;
+}
+
+/* ラジオボタンのカード風調整 */
+.mode-sisetu label {
+    display: flex;
+    align-items: center;
+}
+
+.mode-sisetu label span {
+    flex: 1;
+    text-align: center;
+    padding: 5px;
+    border-radius: 8px;
+}

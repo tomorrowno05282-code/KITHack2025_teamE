@@ -1,0 +1,49 @@
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地図アプリ</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    <div class="left">
+        <div class="left-header">
+            <button id="search-btn">検索</button>
+            <button id="find-facility-btn">施設を探す</button>
+        </div>
+        <div class="mode-search">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="検索">
+                <button id="do-search-btn">検索</button>
+            </div>
+            <div id="listcontena"></div>
+        </div>
+        <div class="mode-sisetu">
+            <p>どれを探す？</p>
+            <label>
+                <input type="radio" name="facility" value="vending">
+                <span>自動販売機</span>
+            </label>
+            <label>
+                <input type="radio" name="facility" value="printer">
+                <span>印刷機</span>
+            </label>
+            <label>
+                <input type="radio" name="facility" value="restaurant">
+                <span>飲食店</span>
+            </label>
+        </div>
+
+    </div>
+    <div class="right">
+        <!-- TODO: 地図の挿入 -->
+    </div>
+    <script src="src/search.js"></script>
+    <script src="src/facility.js"></script>
+    <script src="src/main.js"></script>
+</body>
+
+</html>
