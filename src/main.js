@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
         results.forEach((result) => {
             const card = document.createElement("div");
             card.className = "result-card";
-            card.textContent = result;
-            card.onclick = () => cardOnClick(result);
+            card.textContent = result.names[0];
+            card.onclick = () => cardOnClick(result)
             listContena.appendChild(card);
         });
     });
