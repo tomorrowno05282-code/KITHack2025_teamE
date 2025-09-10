@@ -10,7 +10,7 @@ var markers = []; // 検索時にだけマーカーを表示するための配�
 function searchOnClick(keyword) {
     searchPlace(keyword);
     const result = search(keyword);
-    return result.map(place => place.names[0]);
+    return result;
 }
 
 /**
@@ -19,6 +19,12 @@ function searchOnClick(keyword) {
  */
 function cardOnClick(value) {
     console.log(value);
+    const marker = markers.find(marker => {return marker._latlng.lat == value.lat && marker._latlng.lng == value.lng});
+    console.log(marker);
+    if (marker) {
+        map.setView([value.lat, value.lng], 20)
+        marker.bindPopup(value.names[0]).openPopup();
+    }
 }
 
 // 入力正規化（全角半角・ひらがなカタカナ統一）
