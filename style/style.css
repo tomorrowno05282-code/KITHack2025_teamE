@@ -170,6 +170,11 @@ body {
     margin: 0;
 }
 
+
+.leaflet-routing-container {
+    display: none;
+}
+
 /* drag-handle 共通 */
 .drag-handle {
     background: #ccc;
@@ -210,3 +215,4 @@ body {
         height: 60vh;
     }
 }
+
