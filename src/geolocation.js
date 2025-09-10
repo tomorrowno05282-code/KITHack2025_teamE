@@ -21,7 +21,7 @@ function error(error) {
     console.log(TIMEOUT);
 }
 
-setInterval(callBack, 5000); // ToDo:読み込み順を適切にする
+setInterval(callBack, 50000); // ToDo:読み込み順を適切にする
 function callBack() {
     // ToDo:リアルタイムで更新されるようにする
     tileLayer.addTo(map);
