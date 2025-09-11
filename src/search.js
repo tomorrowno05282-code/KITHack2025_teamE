@@ -26,7 +26,13 @@ function cardOnClick(value) {
         map.setView([value.lat, value.lng], 20);
         marker.bindPopup(value.names[0]).openPopup();
     }
-    planRoute(34.6516096, 135.5911944, value.lat, value.lng);
+    if(!isLocationAvailable) {
+        console.log("現在地が取得できていません。代わりにBLOSSOM CAFEを出発地点とします");
+        latitude = 34.6509499;
+        longitude = 135.5898587;
+        callBack();
+    }
+    planRoute(latitude, longitude, value.lat, value.lng);
 }
 
 // 🔎 入力正規化（全角半角・小文字統一）
