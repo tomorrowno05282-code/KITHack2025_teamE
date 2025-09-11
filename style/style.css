@@ -8,11 +8,11 @@ body {
 
 /* 左右パネル */
 .left {
-    flex: none;
-    display: flex;
     flex-direction: column;
     border-right: 1px solid #ccc;
     background-color: #f9f9f9;
+    overflow-y: auto;
+    height: 100vh;
 }
 
 .right {
@@ -94,7 +94,6 @@ body {
     flex: 1;
     width: auto;
     margin: 0;
-    overflow-y: auto;
     border: 1px solid #ddd;
     background-color: #fff;
     border-radius: 6px;
@@ -103,7 +102,6 @@ body {
 
 /* 結果カード */
 .result-card {
-    width: auto;
     padding: 12px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -190,6 +188,9 @@ body {
     .drag-handle {
         width: 5px;
         cursor: col-resize;
+    }
+    .left {
+        width: 25vw; /* 初期値 */
     }
 }
 
