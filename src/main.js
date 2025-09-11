@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         facilityMode.style.display = "block";
         facilityBtn.classList.add("active");
         searchBtn.classList.remove("active");
+        clearRoute(); // ルート表示をクリア
     });
 
     // 検索ボタンを押したら結果を表示
