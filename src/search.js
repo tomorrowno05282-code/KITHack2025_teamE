@@ -26,7 +26,13 @@ function cardOnClick(value) {
         map.setView([value.lat, value.lng], 20);
         marker.bindPopup(value.names[0]).openPopup();
     }
-    planRoute(34.6516096, 135.5911944, value.lat, value.lng);
+    if(!isLocationAvailable) {
+        console.log("現在地が取得できていません。代わりにBLOSSOM CAFEを出発地点とします");
+        latitude = 34.6509499;
+        longitude = 135.5898587;
+        callBack();
+    }
+    planRoute(latitude, longitude, value.lat, value.lng);
 }
 
 // 🔎 入力正規化（全角半角・小文字統一）
@@ -128,8 +134,8 @@ function expandQuery(query) {
     return [...results];
 }
 
-// 🔎 検索結果を表示（部分一致・両側展開）
-function search(input) {
+// 🔎 検索結果を表示
+function search(input, isExact = false) {
     var normInput = normalize(input);
     var expandedInput = expandQuery(normInput);
 
@@ -137,20 +143,23 @@ function search(input) {
         p.names.some(n => {
             var expandedName = expandQuery(normalize(n));
             return expandedInput.some(e =>
-                expandedName.some(en => en.includes(e) || e.includes(en))
+                expandedName.some(en => 
+                    isExact ? en === e : en.includes(e) || e.includes(en)
+                )
             );
         })
     );
 }
 
 // 検索処理
-function searchPlace(input) {
+// isExact: true → 完全一致, false → 部分一致
+function searchPlace(input, isExact = false) {
 
     // 既存マーカー削除
     markers.forEach(m => map.removeLayer(m));
     markers = [];
 
-    var found = search(input);
+    var found = search(input, isExact);
 
     if (found.length > 0) {
         found.forEach(f => {
