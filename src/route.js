@@ -1,4 +1,3 @@
-
     /**
      * 
      * @param {*} startPoint string
@@ -6,7 +5,6 @@
      * 
      * data.jsのplacesデータを利用して経路案内を表示
      * 
-     * 例: planRoute("E館", "11月ホール");
      * 
      * 参考: https://www.liedman.net/leaflet-routing-machine/
      */
@@ -19,15 +17,23 @@
 
         console.log(`経路案内を作成: (${strlat}, ${strlng}) から (${endlat}, ${endlng}) へ`);
 
-        this.routingControl = L.Routing.control({
+        const routingControl = L.Routing.control({
             waypoints: [
                 L.latLng(strlat, strlng),
                 L.latLng(endlat, endlng)
             ],
             routeWhileDragging: true,
-            autoRoute: true
+            autoRoute: true,
+            addWaypoints: false,
+            createMarker: function(i, waypoint, n) {
+                if (i === 0) {
+                    return L.marker(waypoint.latLng, { draggable: false });
+                }
+                return null;
+            }
         }).addTo(this.map);
 
+        this.routingControl = routingControl;
     }
 
     function clearRoute(){
