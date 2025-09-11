@@ -205,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
             label.appendChild(input);
             label.appendChild(span);
             parent.appendChild(label);
+            input.onclick = () => searchPlace(place.names[0], true);
         });
     };
 
