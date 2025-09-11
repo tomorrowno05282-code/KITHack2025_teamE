@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>地図アプリ</title>
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/heyman/leaflet-usermarker/src/leaflet.usermarker.css" />
 </head>
 
 <body>
@@ -35,15 +37,38 @@
                 <input type="radio" name="facility" value="restaurant">
                 <span>飲食店</span>
             </label>
+            <label>
+                <input type="radio" name="facility" value="trash">
+                <span>ゴミ箱</span>
+            </label>
         </div>
 
     </div>
+    <div class="drag-handle"></div>
     <div class="right">
-        <!-- TODO: 地図の挿入 -->
+        <div id="map"></div>
+
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/heyman/leaflet-usermarker/src/leaflet.usermarker.js"></script>
+        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+
+
     </div>
+    <script src="src/data.js"></script>
     <script src="src/search.js"></script>
     <script src="src/facility.js"></script>
+    <script src="src/geolocation.js"></script>
+    <script src="src/route.js"></script>
     <script src="src/main.js"></script>
+    <script>
+        // 地図を作成（キャンパス中心に設定）
+        var map = L.map('map').setView([34.65265, 135.59455], 17);
+
+        // OpenStreetMapタイルを読み込み
+        const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);</script>
 </body>
 
 </html>
