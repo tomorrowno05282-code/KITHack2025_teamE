@@ -12,10 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const right = document.querySelector(".right");
     const handle = document.querySelector(".drag-handle");
 
-    // ラジオボタンの配列
-    const facilityRadios = document.querySelectorAll("input[name='facility']");
-
-
     // 初期状態: 検索モードを表示
     searchMode.style.display = "block";
     facilityMode.style.display = "none";
@@ -60,13 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 cardOnClick(result);
             };
             listContena.appendChild(card);
-        });
-    });
-
-    // --- ラジオボタン選択イベント ---
-    facilityRadios.forEach((radio) => {
-        radio.addEventListener("change", (event) => {
-            facilityRadioOnClick(event.target.value);
         });
     });
 
