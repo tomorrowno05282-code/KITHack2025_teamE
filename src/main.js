@@ -221,10 +221,35 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. 「施設」の中に、各タイプのサブアコーディオンを作成
     Object.keys(facilityGroups).forEach(type => {
         const displayName = facilityTypeNames[type] || type;
-        const placesOfType = facilityGroups[type];
+        
+        // もしtypeが自販機かゴミ箱だったら
+        if (type === 'vending_machine' || type === 'trash_can') {
+            // 複数の場所を代表する単一のラジオボタンを作成する
+            const label = document.createElement("label");
+            const input = document.createElement("input");
+            const span = document.createElement("span");
 
-        //【変更点②】サブアコーディオン作成時、親のコンテンツ要素(facilityContent)を渡す
-        const subAccordionContent = createAccordion(facilityContent, displayName, facilityContent);
-        createRadioButtons(subAccordionContent, placesOfType);
+            input.type = "radio";
+            input.name = "destination";
+            input.value = displayName; // "自動販売機" または "ゴミ箱"
+            
+            // マップ連携用に、単一地点ではなくグループであることを示す属性を追加
+            input.dataset.groupType = type; 
+
+            span.textContent = displayName;
+
+            label.appendChild(input);
+            label.appendChild(span);
+
+            input.onclick = () => searchPlace(displayName, true);
+            
+            // 「施設」アコーディオンの直下に配置
+            facilityContent.appendChild(label);
+        } else {
+            // それ以外の施設は、これまで通りサブアコーディオンを作成する
+            const placesOfType = facilityGroups[type];
+            const subAccordionContent = createAccordion(facilityContent, displayName, facilityContent);
+            createRadioButtons(subAccordionContent, placesOfType);
+        }
     });
 });
