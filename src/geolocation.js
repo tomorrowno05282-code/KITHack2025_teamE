@@ -22,7 +22,6 @@ function error(error) {
     TIMEOUT = 3; // タイムアウト
     console.log(TIMEOUT);
 }
-    //setInterval(callBack, 5000); // ToDo:読み込み順を適切にする.
 
 function callBack() {
     // ToDo:リアルタイムで更新されるようにする.
