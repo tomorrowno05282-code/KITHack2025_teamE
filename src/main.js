@@ -111,3 +111,116 @@ document.addEventListener("DOMContentLoaded", () => {
         document.removeEventListener("touchend", stopDrag);
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // データをカテゴリ分けする
+    const buildings = places.filter(p => p.type === 'building');
+    const facilities = places.filter(p => p.type !== 'building');
+
+    // 施設をさらにtypeでグループ化
+    const facilityGroups = facilities.reduce((acc, place) => {
+        // グループが存在しなければ初期化
+        if (!acc[place.type]) {
+            acc[place.type] = [];
+        }
+        acc[place.type].push(place);
+        return acc;
+    }, {});
+
+    // typeの表示名を定義
+    const facilityTypeNames = {
+        'facility': 'その他施設',
+        'restaurant': '食堂',
+        'cafe': 'カフェ',
+        'store': '売店・書籍',
+        'vending_machine': '自動販売機',
+        'trash_can': 'ゴミ箱'
+    };
+
+
+    const container = document.querySelector('.mode-sisetu');
+    container.innerHTML = ''; // コンテナを初期化
+
+    /**
+     * アコーディオンの基本構造を作成する関数
+     * @param {HTMLElement} parent - 追加先の親要素
+     * @param {string} title - ヘッダーに表示するタイトル
+     * @returns {HTMLElement} - 中にコンテンツを追加するためのcontent要素
+     */
+    const createAccordion = (parent, title) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'accordion-item';
+
+        const headerBtn = document.createElement('button');
+        headerBtn.className = 'accordion-header';
+        headerBtn.textContent = title;
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'accordion-content';
+
+        itemDiv.appendChild(headerBtn);
+        itemDiv.appendChild(contentDiv);
+        parent.appendChild(itemDiv);
+
+        // クリックで開閉するイベントリスナー
+        headerBtn.addEventListener('click', () => {
+            headerBtn.classList.toggle('active');
+            const isActive = headerBtn.classList.contains('active');
+
+            if (isActive) {
+                // 開くとき: scrollHeightでコンテンツの高さを取得して設定
+                contentDiv.style.maxHeight = contentDiv.scrollHeight + 'px';
+            } else {
+                // 閉るとき
+                contentDiv.style.maxHeight = null;
+            }
+        });
+        return contentDiv;
+    };
+
+    /**
+     * ラジオボタンのリストを作成する関数
+     * @param {HTMLElement} parent - 追加先の親要素
+     * @param {Array} placesData - 表示する場所のデータ配列
+     */
+    const createRadioButtons = (parent, placesData) => {
+        placesData.forEach(place => {
+            const label = document.createElement("label");
+            const input = document.createElement("input");
+            const span = document.createElement("span");
+
+            input.type = "radio";
+            // nameを統一することで、どれか1つしか選択できないようにする
+            input.name = "destination";
+            input.value = place.names[0];
+
+            // 地図連携のために緯度経度をdata属性に持たせる
+            input.dataset.lat = place.lat;
+            input.dataset.lng = place.lng;
+
+            span.textContent = place.names[0];
+
+            label.appendChild(input);
+            label.appendChild(span);
+            parent.appendChild(label);
+        });
+    };
+
+    // --- UIの構築 ---
+
+    // 1. 「建物」カテゴリのアコーディオンを作成
+    const buildingContent = createAccordion(container, '建物');
+    createRadioButtons(buildingContent, buildings);
+
+    // 2. 「施設」カテゴリのアコーディオンを作成
+    const facilityContent = createAccordion(container, '施設');
+
+    // 3. 「施設」の中に、各タイプのサブアコーディオンを作成
+    Object.keys(facilityGroups).forEach(type => {
+        const displayName = facilityTypeNames[type] || type; // 表示名を取得
+        const placesOfType = facilityGroups[type];
+        
+        const subAccordionContent = createAccordion(facilityContent, displayName);
+        createRadioButtons(subAccordionContent, placesOfType);
+    });
+});
