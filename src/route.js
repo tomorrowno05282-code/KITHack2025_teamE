@@ -1,11 +1,9 @@
     /**
-     * 
-     * @param {*} startPoint string
-     * @param {*} endPoint string
-     * 
-     * data.jsのplacesデータを利用して経路案内を表示
-     * 
-     * 
+     * 経路案内を作成
+     * @param {number} strlat - 出発地点の緯度
+     * @param {number} strlng - 出発地点の経度
+     * @param {number} endlat - 目的地の緯度
+     * @param {number} endlng - 目的地の経度
      * 参考: https://www.liedman.net/leaflet-routing-machine/
      */
     function planRoute(strlat,strlng, endlat, endlng){
