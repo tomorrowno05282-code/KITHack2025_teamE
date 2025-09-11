@@ -35,6 +35,7 @@ function normalize(str) {
         .replace(/[ぁ-ん]/g, s => String.fromCharCode(s.charCodeAt(0) + 0x60)); // ひらがな→カタカナ
 }
 
+// 検索結果を表示
 function search (input) {
     var normInput = normalize(input);
     return places.filter(p => p.names.some(n => normalize(n).includes(normInput)));
