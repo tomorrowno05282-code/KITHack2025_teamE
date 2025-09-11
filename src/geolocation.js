@@ -6,7 +6,7 @@ let isLocationAvailable = false;
 const options = {
     enableHighAccuracy: true,
     maximumAge: 0,
-    timeout: 3000,
+    timeout: 5000,
 }
 
 navigator.geolocation.watchPosition(success, error, options);
@@ -30,13 +30,13 @@ function error(error) {
 function callBack() {
     // ToDo:リアルタイムで更新されるようにする.
     let options = {
-        pulsing: true, accuracy: 1, smallIcon: true
+        pulsing: true, accuracy: 15, smallIcon: true, circleRadius: 10
     };
     // L.userMarker([latitude, longitude], options).addTo(map).bindPopup("pulsing true");
-    if(marker == undefined){
+    if(marker === undefined || marker === null){
         marker = L.userMarker([latitude, longitude], options);
         marker.addTo(map).bindPopup("現在地");
     } else {
-        marker = L.userMarker([latitude, longitude], options);
+        marker.setLatLng([latitude, longitude]);
     }
 }

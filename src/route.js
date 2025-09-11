@@ -8,6 +8,7 @@
      */
     function planRoute(strlat,strlng, endlat, endlng){
         clearRoute();
+        clearAllMarkers()
         if (!strlat || !strlng || !endlat || !endlng) {
             console.error("指定された座標が見つかりません");
             return;
@@ -25,9 +26,19 @@
             addWaypoints: false,
             createMarker: function(i, waypoint, n) {
                 if (i === 0) {
-                    return L.marker(waypoint.latLng, { draggable: false });
+                    return null;
                 }
-                return null;
+                return L.marker(waypoint.latLng, {
+                    draggable: false, // ドラッグできないように設定
+                    icon: L.icon({
+                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    })
+                });
             }
         }).addTo(this.map);
 
@@ -40,3 +51,8 @@
             this.routingControl = null;
         }
     }
+
+    function clearAllMarkers() {
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+}
