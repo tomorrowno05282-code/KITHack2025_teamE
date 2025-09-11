@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         facilityMode.style.display = "block";
         facilityBtn.classList.add("active");
         searchBtn.classList.remove("active");
+        clearRoute(); // ルート表示をクリア
     });
 
     // 検索ボタンを押したら結果を表示
@@ -45,8 +46,19 @@ document.addEventListener("DOMContentLoaded", () => {
         results.forEach((result) => {
             const card = document.createElement("div");
             card.className = "result-card";
-            card.textContent = result.names[0];
-            card.onclick = () => cardOnClick(result)
+            card.innerHTML = `
+                <div class="result-title">${result.names[0]}</div>
+                <div class="result-detail">${result.detail ? result.detail : "詳細情報はありません"}</div>
+            `;
+            card.onclick = () => {
+                // すでに開いているものを閉じる
+                document.querySelectorAll('.result-card.expanded').forEach(el => {
+                    if (el !== card) el.classList.remove('expanded');
+                });
+                // 自分をトグル
+                card.classList.toggle('expanded');
+                cardOnClick(result);
+            };
             listContena.appendChild(card);
         });
     });

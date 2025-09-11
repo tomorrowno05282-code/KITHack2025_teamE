@@ -17,7 +17,8 @@ body {
 
 .right {
     flex: 1;
-    background-color: #e6e6e6; /* 地図が実装されるまで仮の背景 */
+    background-color: #e6e6e6;
+    /* 地図が実装されるまで仮の背景 */
 }
 
 /* 左パネルのヘッダー */
@@ -107,14 +108,34 @@ body {
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #fefefe;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .result-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.result-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s, padding 0.3s;
+    background: #f4f8ff;
+    color: #333;
+    font-size: 14px;
+    padding: 0 8px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.result-card.expanded .result-detail {
+
+    max-height: 80px;
+    /* 詳細の高さに応じて調整 */
+
+    padding: 10px 8px;
+
 }
 
 /* 施設を探すモード */
@@ -143,7 +164,7 @@ body {
     display: none;
 }
 
-.mode-sisetu input[type="radio"]:checked + span {
+.mode-sisetu input[type="radio"]:checked+span {
     background-color: #4285f4;
     color: #fff;
     border-color: #4285f4;
@@ -163,7 +184,7 @@ body {
     border-radius: 8px;
 }
 
-.right #map{
+.right #map {
     width: 100%;
     height: 100%;
     margin: 0;
@@ -186,10 +207,12 @@ body {
     body {
         flex-direction: row;
     }
+
     .drag-handle {
         width: 5px;
         cursor: col-resize;
     }
+
     .left {
         width: 25vw; /* 初期値 */
         height: auto;
@@ -201,18 +224,22 @@ body {
     body {
         flex-direction: column;
     }
+
     .left {
         order: 2;
-        height: 40vh; /* 初期値 */
+        height: 40vh;
+        /* 初期値 */
         border-right: none;
         border-top: 1px solid #ccc;
     }
+
     .drag-handle {
         height: 5px;
         width: 100%;
         cursor: row-resize;
         order: 1;
     }
+
     .right {
         order: 0;
         height: 60vh;
