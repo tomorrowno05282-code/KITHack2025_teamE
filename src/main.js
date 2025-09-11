@@ -145,9 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
      * アコーディオンの基本構造を作成する関数
      * @param {HTMLElement} parent - 追加先の親要素
      * @param {string} title - ヘッダーに表示するタイトル
+     * @param {HTMLElement|null} [parentContentDiv=null] - 親アコーディオンのコンテンツ要素 (ネスト時に使用)
      * @returns {HTMLElement} - 中にコンテンツを追加するためのcontent要素
      */
-    const createAccordion = (parent, title) => {
+    const createAccordion = (parent, title, parentContentDiv = null) => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'accordion-item';
 
@@ -174,14 +175,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 閉るとき
                 contentDiv.style.maxHeight = null;
             }
+
+            //【変更点①】もし親アコーディオンが存在すれば、その高さを再計算する
+            if (parentContentDiv && parentContentDiv.style.maxHeight) {
+                // 子の開閉アニメーションに合わせて少し待ってから親の高さを更新する
+                setTimeout(() => {
+                    parentContentDiv.style.maxHeight = parentContentDiv.scrollHeight + 'px';
+                }, 250); // CSSのtransition時間と合わせる
+            }
         });
         return contentDiv;
     };
 
     /**
      * ラジオボタンのリストを作成する関数
-     * @param {HTMLElement} parent - 追加先の親要素
-     * @param {Array} placesData - 表示する場所のデータ配列
+     * (この関数に変更はありません)
      */
     const createRadioButtons = (parent, placesData) => {
         placesData.forEach(place => {
@@ -190,14 +198,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const span = document.createElement("span");
 
             input.type = "radio";
-            // nameを統一することで、どれか1つしか選択できないようにする
             input.name = "destination";
             input.value = place.names[0];
-
-            // 地図連携のために緯度経度をdata属性に持たせる
             input.dataset.lat = place.lat;
             input.dataset.lng = place.lng;
-
             span.textContent = place.names[0];
 
             label.appendChild(input);
@@ -217,10 +221,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. 「施設」の中に、各タイプのサブアコーディオンを作成
     Object.keys(facilityGroups).forEach(type => {
-        const displayName = facilityTypeNames[type] || type; // 表示名を取得
+        const displayName = facilityTypeNames[type] || type;
         const placesOfType = facilityGroups[type];
         
-        const subAccordionContent = createAccordion(facilityContent, displayName);
+        //【変更点②】サブアコーディオン作成時、親のコンテンツ要素(facilityContent)を渡す
+        const subAccordionContent = createAccordion(facilityContent, displayName, facilityContent);
         createRadioButtons(subAccordionContent, placesOfType);
     });
 });
