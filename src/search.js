@@ -10,6 +10,7 @@ var markers = []; // 検索時にだけマーカーを表示するための配�
 function searchOnClick(keyword) {
     searchPlace(keyword);
     const result = search(keyword);
+    clearRoute();
     return result;
 }
 
@@ -25,6 +26,7 @@ function cardOnClick(value) {
         map.setView([value.lat, value.lng], 20);
         marker.bindPopup(value.names[0]).openPopup();
     }
+    planRoute(34.6516096, 135.5911944, value.lat, value.lng);
 }
 
 // 🔎 入力正規化（全角半角・小文字統一）

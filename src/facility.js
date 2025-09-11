@@ -32,14 +32,6 @@ function facilityRadioOnClick(facility) {
             console.log("ゴミ箱が選択されました");
             searchPlace("ゴミ箱"); 
             break;
-        case "test":
-            console.log("テストが選択されました");
-            planRoute("E館", "11月ホール");
-            break;
-        case "test1":
-            console.log("テスト1が選択されました");
-            planRoute("E館", "近畿大学 記念会館");
-            break;
         default:
             console.log("不明な施設が選択されました");
     }
