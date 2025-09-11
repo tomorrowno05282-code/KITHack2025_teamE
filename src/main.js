@@ -110,9 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.removeEventListener("mouseup", stopDrag);
         document.removeEventListener("touchend", stopDrag);
     }
-});
 
-document.addEventListener('DOMContentLoaded', () => {
     // データをカテゴリ分けする
     const buildings = places.filter(p => p.type === 'building');
     const facilities = places.filter(p => p.type !== 'building');
@@ -223,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     Object.keys(facilityGroups).forEach(type => {
         const displayName = facilityTypeNames[type] || type;
         const placesOfType = facilityGroups[type];
-        
+
         //【変更点②】サブアコーディオン作成時、親のコンテンツ要素(facilityContent)を渡す
         const subAccordionContent = createAccordion(facilityContent, displayName, facilityContent);
         createRadioButtons(subAccordionContent, placesOfType);
