@@ -41,65 +41,6 @@ function normalize(str) {
         .normalize("NFKC"); // 全角 → 半角
 }
 
-// 漢数字変換（1～39用）
-function numberToKanji(num) {
-    const kanjiDigits = ["零","一","二","三","四","五","六","七","八","九"];
-    if (num < 10) return kanjiDigits[num];
-    if (num < 20) return "十" + (num % 10 ? kanjiDigits[num % 10] : "");
-    if (num < 30) return "二十" + (num % 10 ? kanjiDigits[num % 10] : "");
-    if (num < 40) return "三十" + (num % 10 ? kanjiDigits[num % 10] : "");
-    return String(num);
-}
-
-// ひらがな数詞変換（1～39用）
-function numberToHiragana(num) {
-    const digits = ["ぜろ","いち","に","さん","よん","ご","ろく","なな","はち","きゅう"];
-    const alt4 = "し";
-    const alt7 = "しち";
-
-    if (num < 10) {
-        if (num === 4) return ["よん","し"];
-        if (num === 7) return ["なな","しち"];
-        return [digits[num]];
-    }
-    if (num < 20) {
-        if (num === 10) return ["じゅう"];
-        const rest = num % 10;
-        return ["じゅう" + digits[rest]].concat(
-            rest === 4 ? ["じゅう" + alt4] : [],
-            rest === 7 ? ["じゅう" + alt7] : []
-        );
-    }
-    if (num < 30) {
-        if (num === 20) return ["にじゅう"];
-        const rest = num % 10;
-        return ["にじゅう" + digits[rest]].concat(
-            rest === 4 ? ["にじゅう" + alt4] : [],
-            rest === 7 ? ["にじゅう" + alt7] : []
-        );
-    }
-    if (num < 40) {
-        if (num === 30) return ["さんじゅう"];
-        const rest = num % 10;
-        return ["さんじゅう" + digits[rest]].concat(
-            rest === 4 ? ["さんじゅう" + alt4] : [],
-            rest === 7 ? ["さんじゅう" + alt7] : []
-        );
-    }
-    return [String(num)];
-}
-
-// アルファベット変換表
-const alphabetHira = {
-    A: ["えー"], B: ["びー"], C: ["しー"], D: ["でぃー","でー"],
-    E: ["いー"], F: ["えふ"], G: ["じー"], H: ["えいち"],
-    I: ["あい"], J: ["じぇー"], K: ["けー"], L: ["える"],
-    M: ["えむ"], N: ["えぬ"], O: ["おー"], P: ["ぴー"],
-    Q: ["きゅー"], R: ["あーる"], S: ["えす"], T: ["てぃー"],
-    U: ["ゆー"], V: ["ぶい"], W: ["だぶりゅー"], X: ["えっくす"],
-    Y: ["わい"], Z: ["ぜっと"]
-};
-
 // 長音の揺らぎ
 function addChoonVariations(str) {
     const variations = new Set([str]);
@@ -108,43 +49,73 @@ function addChoonVariations(str) {
     return [...variations];
 }
 
-// クエリ展開
-function expandQuery(query) {
-    let results = new Set([query]);
+// キーワードを正規化して複数の候補に展開
+function expandKeywords(input) {
+    const norm = normalize(input);
+    const results = new Set([norm]);
 
-    // 数字を漢数字・ひらがなに変換
-    query.replace(/\d+/g, (numStr) => {
-        const num = parseInt(numStr, 10);
-        const kanji = numberToKanji(num);
-        const hiraList = numberToHiragana(num);
-        results.add(query.replace(numStr, kanji));
-        hiraList.forEach(h => results.add(query.replace(numStr, h)));
+    // --- 漢数字 → 数字 ---
+    // シンプルに 1～39 まで対応
+    const kanjiToNumber = {
+        "零":0,"一":1,"二":2,"三":3,"四":4,"五":5,"六":6,"七":7,"八":8,"九":9,
+        "十":10,"十一":11,"十二":12,"十三":13,"十四":14,"十五":15,"十六":16,"十七":17,"十八":18,"十九":19,
+        "二十":20,"二十一":21,"二十二":22,"二十三":23,"二十四":24,"二十五":25,"二十六":26,"二十七":27,"二十八":28,"二十九":29,
+        "三十":30,"三十一":31,"三十二":32,"三十三":33,"三十四":34,"三十五":35,"三十六":36,"三十七":37,"三十八":38,"三十九":39
+    };
+    Object.keys(kanjiToNumber).forEach(k => {
+        if (norm.includes(k)) {
+            results.add(norm.replace(new RegExp(k, "g"), String(kanjiToNumber[k])));
+        }
     });
 
-    // アルファベットをひらがなに変換
-    query.replace(/[A-Z]/gi, (letter) => {
-        const hiraList = alphabetHira[letter.toUpperCase()] || [];
-        hiraList.forEach(h => results.add(query.replace(letter, h)));
+    // --- ひらがな数詞 → 数字 ---
+    const hiraToNumber = {
+        "ぜろ":0,"いち":1,"に":2,"さん":3,"よん":4,"し":4,"ご":5,"ろく":6,"なな":7,"しち":7,"はち":8,"きゅう":9,
+        "じゅう":10,"じゅういち":11,"じゅうに":12,"じゅうさん":13,"じゅうよん":14,"じゅうし":14,"じゅうご":15,
+        "じゅうろく":16,"じゅうなな":17,"じゅうしち":17,"じゅうはち":18,"じゅうきゅう":19,
+        "にじゅう":20,"にじゅういち":21,"にじゅうに":22,"にじゅうさん":23,"にじゅうよん":24,"にじゅうし":24,"にじゅうご":25,
+        "にじゅうろく":26,"にじゅうなな":27,"にじゅうしち":27,"にじゅうはち":28,"にじゅうきゅう":29,
+        "さんじゅう":30,"さんじゅういち":31,"さんじゅうに":32,"さんじゅうさん":33,"さんじゅうよん":34,"さんじゅうし":34,"さんじゅうご":35,
+        "さんじゅうろく":36,"さんじゅうなな":37,"さんじゅうしち":37,"さんじゅうはち":38,"さんじゅうきゅう":39
+    };
+    Object.keys(hiraToNumber).forEach(h => {
+        if (norm.includes(h)) {
+            results.add(norm.replace(new RegExp(h, "g"), String(hiraToNumber[h])));
+        }
     });
 
-    // 長音の揺らぎ
-    [...results].forEach(r => addChoonVariations(r).forEach(v => results.add(v)));
+    // --- ひらがな → アルファベット ---
+    const hiraToAlphabet = {
+        "えー":"A","びー":"B","しー":"C","でぃー":"D","でー":"D","いー":"E","えふ":"F","じー":"G","えいち":"H",
+        "あい":"I","じぇー":"J","けー":"K","える":"L","えむ":"M","えぬ":"N","おー":"O","ぴー":"P",
+        "きゅー":"Q","あーる":"R","えす":"S","てぃー":"T","ゆー":"U","ぶい":"V","だぶりゅー":"W","えっくす":"X",
+        "わい":"Y","ぜっと":"Z"
+    };
+    Object.keys(hiraToAlphabet).forEach(h => {
+        if (norm.includes(h)) {
+            results.add(norm.replace(new RegExp(h, "g"), hiraToAlphabet[h]));
+        }
+    });
 
+    console.log(results);
+    
     return [...results];
 }
 
-// 🔎 検索結果を表示
+// 🔎 検索処理
 function search(input, isExact = false) {
-    var normInput = normalize(input);
-    var expandedInput = expandQuery(normInput);
+    const expandedInputs = expandKeywords(input);
+
+    if (isExact) {
+        return places.filter(p => 
+            p.names.some(n => n === input)
+        );
+    }
 
     return places.filter(p =>
         p.names.some(n => {
-            var expandedName = expandQuery(normalize(n));
-            return expandedInput.some(e =>
-                expandedName.some(en => 
-                    isExact ? en === e : en.includes(e) || e.includes(en)
-                )
+            return expandedInputs.some(e =>
+                isExact ? n === e : n.includes(e) || e.includes(n)
             );
         })
     );
