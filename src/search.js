@@ -38,7 +38,10 @@ function cardOnClick(value) {
 function normalize(str) {
     return str
         .toLowerCase()
-        .normalize("NFKC"); // 全角 → 半角
+        .normalize("NFKC") // 全角 → 半角
+        .replace(/[\u30a1-\u30f6]/g, ch => 
+            String.fromCharCode(ch.charCodeAt(0) - 0x60) // カタカナ → ひらがな
+        );
 }
 
 // 長音の揺らぎ
