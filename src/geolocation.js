@@ -29,13 +29,15 @@ function error(error) {
 
 function callBack() {
     // ToDo:リアルタイムで更新されるようにする.
+    var tuna_Icon = L.icon({ iconUrl: 'tuna.png', iconRetinaUrl: 'tuna.png', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -30] });
+
     let options = {
         pulsing: true, accuracy: 15, smallIcon: true, circleRadius: 10
     };
-    // L.userMarker([latitude, longitude], options).addTo(map).bindPopup("pulsing true");
     if(marker === undefined || marker === null){
         marker = L.userMarker([latitude, longitude], options);
         marker.addTo(map).bindPopup("現在地");
+        marker.setIcon(tuna_Icon);
     } else {
         marker.setLatLng([latitude, longitude]);
     }
