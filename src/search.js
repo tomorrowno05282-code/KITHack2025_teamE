@@ -8,8 +8,7 @@ var markers = []; // 検索時にだけマーカーを表示するための配�
  * @returns 検索結果
  */
 function searchOnClick(keyword) {
-    searchPlace(keyword);
-    const result = search(keyword);
+    const result = searchPlace(keyword);
     clearRoute();
     return result;
 }
@@ -127,12 +126,67 @@ function searchPlace(input, isExact = false) {
     var found = search(input, isExact);
 
     if (found.length > 0) {
+        found = addDistanceToResults(found);
+        found = sortResults(found);
         found.forEach(f => {
             var m = L.marker([f.lat, f.lng]).addTo(map);
             markers.push(m);
+            console.log(renderCard(f));
         });
         map.setView([found[0].lat, found[0].lng], 18);
     } else {
         alert("見つかりませんでした");
     }
+    return found;
+}
+
+// 座標間距離を算出
+function calcDistance(lat1, lng1, lat2, lng2) {
+    const R = 6378137; // 地球半径(m)
+    const toRad = deg => deg * Math.PI / 180; // 1° をラジアンに換算した値
+
+    const x = (lng2 - lng1) * Math.cos(toRad((lat1 + lat2) / 2));
+    const y = (lat2 - lat1);
+
+    const distance = Math.sqrt(x * x + y * y) * (Math.PI / 180) * R;
+    return distance;
+}
+
+// 「自動販売機」と「ゴミ箱」のみ距離を追加
+function addDistanceToResults(results) {
+    return results.map(r => {
+        if (r.names.includes("自動販売機") || r.names.includes("ゴミ箱")) {
+            r.distance = calcDistance(latitude, longitude, r.lat, r.lng);
+            r.detail = renderCard(r);
+        } else {
+            r.distance = null;
+            r.detail = null;
+        }
+        return r;
+    });
+}
+
+// 距離順に並び替える
+function sortResults(results) {
+    const vendingAndTrash = results.filter(r =>
+        r.names.includes("自動販売機") || r.names.includes("ゴミ箱")
+    );
+    const others = results.filter(r =>
+        !r.names.includes("自動販売機") && !r.names.includes("ゴミ箱")
+    );
+
+    // 距離順に並び替える
+    vendingAndTrash.sort((a, b) => (a.distance || 0) - (b.distance || 0));
+
+    // 「それ以外 → 対象」の順で返す
+    return [...others, ...vendingAndTrash];
+}
+
+// カード生成時に距離を表示
+function renderCard(result) {
+    let text = "";
+    if (result.distance !== null) {
+        text += `約${result.distance.toFixed(0)}m`;
+    }
+    return text;
 }
