@@ -6,7 +6,7 @@ const places = [
   { names: ["3号館", "3ごうかん"], lat: 34.6509126, lng: 135.5874417, type: 'building' },
   { names: ["4号館", "4ごうかん"], lat: 34.6503207, lng: 135.5877665, type: 'building' },
   { names: ["5号館", "5ごうかん"], lat: 34.6505402, lng: 135.5872697, type: 'building' },
-  { names: ["6号館", "6ごうかん"], lat: 34.6499167, lng: 135.5876358, type: 'building', detail: "6号館1階：学生ホール・食堂など"},
+  { names: ["6号館", "6ごうかん"], lat: 34.6499167, lng: 135.5876358, type: 'building', detail: "6号館1階：学生ホール・食堂など" },
   { names: ["7号館", "7ごうかん"], lat: 34.6501136, lng: 135.5880854, type: 'building' },
   { names: ["10号館", "10ごうかん"], lat: 34.6512652, lng: 135.5874327, type: 'building' },
   { names: ["15号館", "15ごうかん"], lat: 34.650794, lng: 135.5864049, type: 'building' },
