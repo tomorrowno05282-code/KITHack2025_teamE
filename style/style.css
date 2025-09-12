@@ -324,3 +324,11 @@ body {
 .accordion-content .accordion-content {
      padding-left: 15px;
 }
+
+.custom-label {
+    background-color: transparent !important; /* 背景を最優先で透明にする */
+    border: none !important;                  /* 枠線を最優先でなくす */
+    box-shadow: none !important;              /* 影を最優先でなくす */
+    font-size: 14px !important;               /* 文字サイズを指定 (この数値を変更してお好みの大きさに) */
+    color: black;                             /* 文字色を白に */
+}
