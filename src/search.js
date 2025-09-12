@@ -106,6 +106,12 @@ function expandKeywords(input) {
 function search(input, isExact = false) {
     const expandedInputs = expandKeywords(input);
 
+    if (isExact) {
+        return places.filter(p => 
+            p.names.some(n => n === input)
+        );
+    }
+
     return places.filter(p =>
         p.names.some(n => {
             return expandedInputs.some(e =>
