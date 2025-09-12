@@ -166,7 +166,6 @@ function addDistanceToResults(results) {
             r.detail = renderCard(r);
         } else {
             r.distance = null;
-            r.detail = null;
         }
         return r;
     });
