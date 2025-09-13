@@ -217,6 +217,16 @@ body {
         width: 25vw; /* 初期値 */
         height: auto;
     }
+
+    /* --- 右上の天気ウィジェット --- */
+    .sidebar-widget {
+        position: fixed;
+        right: 30px;
+        top: 30px;
+        z-index: 1000; 
+        background-color: rgba(255, 255, 255, 0.50);
+    }
+
 }
 
 /* 縦長時: 上下分割（ボトムシート風） */
@@ -244,14 +254,17 @@ body {
         order: 0;
         height: 60vh;
     }
+
+    /* --- 右上の天気ウィジェット --- */
+    .sidebar-widget {
+        position: fixed;
+        right: 1px;
+        top: 1px;
+        z-index: 1000; 
+        background-color: rgba(255, 255, 255, 0.50);
+        scale: 0.5; /* ウィジェットを少し小さくする */
 }
-/* --- 右上の天気ウィジェット --- */
-.sidebar-widget {
-    position: fixed;
-    right: 30px;
-    top: 30px;
-    z-index: 1000; 
-    background-color: rgba(255, 255, 255, 0.50);;
+
 }
 
 /* --- アコーディオンUIのスタイル --- */
