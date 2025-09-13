@@ -16,14 +16,12 @@ function success(position) {
     longitude = position.coords.longitude;
     callBack();
     isLocationAvailable = true;
-    console.log("現在地が取得できました");
 }
 
 function error(error) {
     PERMISSION_DENIED = 1; // GPS機能の利用が許可されていない
     POSITION_UNAVAILABLE = 2; // 何らかの内部エラーが発生した
     TIMEOUT = 3; // タイムアウト
-    console.log(TIMEOUT);
     isLocationAvailable = false;
 }
 

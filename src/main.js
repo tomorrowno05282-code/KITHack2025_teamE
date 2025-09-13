@@ -253,4 +253,99 @@ document.addEventListener("DOMContentLoaded", () => {
             createRadioButtons(subAccordionContent, placesOfType);
         }
     });
+// 1. 表示したい全てのエリア情報を配列にまとめる
+const areaData = [
+    {
+        coords: [ // 1つ目: 芝生エリア
+            [34.65134, 135.58764], [34.65136, 135.58824],
+            [34.65114, 135.58825], [34.65111, 135.58766]
+        ],
+        style: { color: '#FFFFE5', fillColor: '#FFFFE5', fillOpacity: 1, weight: 1 },
+        popup: 'ここは現在、芝生の広場です。',
+        label: ''
+    },
+    {
+        coords: [ // 2つ目: 新しいエリア1 
+            [34.65219, 135.58857], [34.65219, 135.58894],
+            [34.65188, 135.58900], [34.65190, 135.58860]
+        ],
+        style: { color: '#FFFFE5', fillColor: '#FFFFE5', fillOpacity: 1, weight: 1 },
+        popup: '工事中',
+        label: '工事中'
+    },
+    {
+        coords: [ // 3つ目: 新しいエリア2 (例: カフェ前の広場)
+            [34.65178, 135.58678], [34.65178, 135.58702],
+            [34.65139, 135.58701], [34.65136, 135.58681]
+        ],
+        style: { color: '#D9D0C9', fillColor: '#D9D0C9', fillOpacity: 1, weight: 1 },
+        popup: '工事中',
+        label: '工事中'
+    }
+];
+
+// 作成したポリゴンを管理するための配列
+const labeledPolygons = [];
+
+// areaData配列の各データに対して、ポリゴンとラベルを作成
+areaData.forEach(data => {
+    // ポリゴンを作成
+    const polygon = L.polygon(data.coords, data.style).addTo(map);
+    // ポップアップを追加
+    polygon.bindPopup(data.popup);
+    // ツールチップを作成して紐付け
+    const tooltip = L.tooltip({
+        permanent: true,
+        direction: 'center',
+        className: 'custom-label' // 共通のクラス名を使う
+    }).setContent(data.label);
+    polygon.bindTooltip(tooltip);
+    // 管理用の配列に追加
+    labeledPolygons.push(polygon);
+});
+
+// ズームレベルに応じて「すべての」ラベルの表示を切り替える関数
+function checkAllLabelsVisibility() {
+    const currentZoom = map.getZoom();
+
+    labeledPolygons.forEach(polygon => {
+        if (currentZoom >= 17) {
+            if (!polygon.isTooltipOpen()) {
+                polygon.openTooltip();
+            }
+        } else {
+            if (polygon.isTooltipOpen()) {
+                polygon.closeTooltip();
+            }
+        }
+    });
+}
+
+// イベントリスナーを設定
+map.on('zoomend', checkAllLabelsVisibility);
+
+// 初回読み込み時にもチェックを実行
+checkAllLabelsVisibility();
+
+window.addEventListener('load', () => {
+    const weatherContainer = document.getElementById('weather-container');
+        // 最初にウィジェットのHTMLコードを記憶しておく
+    const originalWidgetHTML = weatherContainer.innerHTML;
+
+    // ウィジェットを再生成する関数
+    function refreshWeatherWidget() {
+        console.log("天気ウィジェットを更新します...", new Date().toLocaleTimeString());
+        
+        // コンテナの中身を一度空にする
+        weatherContainer.innerHTML = '';
+
+        // 記憶しておいた元のHTMLコードを再度挿入する
+        // これにより、<script>タグが再実行され、ウィジェットが再描画される
+        weatherContainer.innerHTML = originalWidgetHTML;
+    }
+
+    // 10分（600,000ミリ秒）ごとにrefreshWeatherWidget関数を実行
+    setInterval(refreshWeatherWidget, 600000);
+});
+
 });

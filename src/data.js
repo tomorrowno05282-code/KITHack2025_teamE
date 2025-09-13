@@ -1,6 +1,6 @@
 /** 位置データ */
 const places = [
-  // 1〜39号館のデータ
+  // 1〜39号館
   { names: ["1号館", "1ごうかん"], lat: 34.6501894, lng: 135.5869932, type: 'building' },
   { names: ["2号館", "2ごうかん"], lat: 34.6508406, lng: 135.5869466, type: 'building' },
   { names: ["3号館", "3ごうかん"], lat: 34.6509126, lng: 135.5874417, type: 'building' },
@@ -24,7 +24,7 @@ const places = [
   { names: ["38号館", "38ごうかん"], lat: 34.6508768, lng: 135.5885491, type: 'building' },
   { names: ["39号館", "39ごうかん"], lat: 34.6515122, lng: 135.5879809, type: 'building' },
 
-  // A〜G館のデータ
+  // A〜G館
   { names: ["A館", "Aかん"], lat: 34.6508961, lng: 135.5904634, type: 'building' },
   { names: ["B館", "Bかん"], lat: 34.6512592, lng: 135.5904783, type: 'building' },
   { names: ["C館", "Cかん"], lat: 34.6516694, lng: 135.590162, type: 'building' },
@@ -33,7 +33,7 @@ const places = [
   { names: ["F館", "Fかん"], lat: 34.6507614, lng: 135.5898579, type: 'building' },
   { names: ["G館", "Gかん"], lat: 34.6512507, lng: 135.5914313, type: 'building' },
 
-  // その他の建物のデータ
+  // その他の建物
   { names: ["11月ホール", "11がつほーる"], lat: 34.6515804, lng: 135.5889368, type: 'building' },
   { names: ["BLOSSOM CAFE", "ぶろっさむかふぇ"], lat: 34.6509499, lng: 135.5898587, type: 'cafe' },
   { names: ["RI棟", "RIとう"], lat: 34.6489248, lng: 135.5872584, type: 'building' },
@@ -67,7 +67,7 @@ const places = [
   { names: ["KINDAI Ramen Venture 近大をすすらんか。", "きんだいらーめんべんちゃーきんだいをすすらんか。"], lat: 34.65087038351041, lng: 135.58971583843234, type: 'restaurant', detail: "BLOSSOM CAFÉ 平日 11：00～15：00" },
   { names: ["めん処 御用", "めんどころごよう"], lat: 34.65092333878904, lng: 135.58981239795688, type: 'restaurant', detail: "BLOSSOM CAFÉ 平日 11：00～16：00" },
   { names: ["ベーカリー「聖庵（ひじりあん）」", "べーかりーひじりあん"], lat: 34.64998337756496, lng: 135.58787584304812, type: 'restaurant' },
-  { names: ["サーティーワンアイスクリーム", "さーてぃーわんあいすくりーむ"], lat: 34.6499127697187, lng: 135.58787584304812, type: 'restaurant' },
+  { names: ["サーティーワンアイスクリーム", "さーてぃーわんあいすくりーむ", "31あいすくりーむ"], lat: 34.6499127697187, lng: 135.58787584304812, type: 'restaurant' },
 
   // カフェ
   { names: ["ALL DAY COFFEE", "おーるでいこーひー"], lat: 34.65031876401343, lng: 135.58757007122043, type: 'cafe', detail: "4号館1F 平日 11：00～17：00" },
@@ -76,7 +76,7 @@ const places = [
   // 売店
   { names: ["フードコンビニPlum(プラム)", "ふーどこんびにぷらむ"], lat: 34.65225603549557, lng: 135.58677613735202, type: 'store', detail: '21号館1F 平日 10：00～17：00 <a href="https://www.kindai.coop/time/schedule_202509.html" target="_blank">営業日</a>' },
   { names: ["Mini Shop November", "みにしょっぷのーべんばー"], lat: 34.65136463146189, lng: 135.5889326334, type: 'store', detail: '11月ホールB1F 24時間営業 <a href="https://www.kindai.coop/time/schedule_202509.html" target="_blank">営業日</a>' },
-  { names: ["セブン-イレブン", "せぶん-いれぶん"], lat: 34.6509762940338, lng: 135.58966219425204, type: 'store', detail: "BLOSSOM CAFÉ 平日 8：30～20：00" },
+  { names: ["セブン-イレブン", "せぶん-いれぶん", "せぶんいれぶん", "711"], lat: 34.6509762940338, lng: 135.58966219425204, type: 'store', detail: "BLOSSOM CAFÉ 平日 8：30～20：00" },
 
   // 書籍・旅行
   { names: ["キャンパスストアbloom", "きゃんぱすすとあぶるーむ"], lat: 34.65230898988899, lng: 135.58697998523715, type: 'store', detail: '21号館1F 平日 10：00～17：00 <a href="https://www.kindai.coop/time/schedule_202509.html" target="_blank">営業日</a>' },
@@ -95,7 +95,7 @@ const places = [
   { names: ["学生部", "がくせいぶ"], lat: 34.65139993477425, lng: 135.5886483192444, type: 'facility' },
   { names: ["アカデミックシアター", "あかでみっくしあたー"], lat: 34.65054382521147, lng: 135.5873286724091, type: 'building', detail: '<a href="https://act.kindai.ac.jp/" target="_blank">アカデミックシアター</a>' },
 
-  // 自動販売機のデータ
+  // 自動販売機
   { names: ["自動販売機", "自販機", "じどうはんばいき", "じはんき"], lat: 34.65265, lng: 135.59455, type: 'vending_machine' },
   { names: ["自動販売機", "自販機", "じどうはんばいき", "じはんき"], lat: 34.65258, lng: 135.59430, type: 'vending_machine' },
   { names: ["自動販売機", "自販機", "じどうはんばいき", "じはんき"], lat: 34.65270, lng: 135.59279, type: 'vending_machine' },
@@ -119,7 +119,7 @@ const places = [
   { names: ["自動販売機", "自販機", "じどうはんばいき", "じはんき"], lat: 34.64886, lng: 135.58643, type: 'vending_machine' },
   { names: ["自動販売機", "自販機", "じどうはんばいき", "じはんき"], lat: 34.64890, lng: 135.58641, type: 'vending_machine' },
 
-  // ゴミ箱のデータ
+  // ゴミ箱
   { names: ["ゴミ箱", "ごみばこ"], lat: 34.65265, lng: 135.59455, type: 'trash_can' },
   { names: ["ゴミ箱", "ごみばこ"], lat: 34.65258, lng: 135.59430, type: 'trash_can' },
   { names: ["ゴミ箱", "ごみばこ"], lat: 34.65270, lng: 135.59279, type: 'trash_can' },
