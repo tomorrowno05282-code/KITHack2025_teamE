@@ -10,11 +10,8 @@
         clearRoute();
         clearAllMarkers()
         if (!strlat || !strlng || !endlat || !endlng) {
-            console.error("指定された座標が見つかりません");
             return;
         }
-
-        console.log(`経路案内を作成: (${strlat}, ${strlng}) から (${endlat}, ${endlng}) へ`);
 
         const routingControl = L.Routing.control({
             waypoints: [
