@@ -326,4 +326,26 @@ map.on('zoomend', checkAllLabelsVisibility);
 
 // 初回読み込み時にもチェックを実行
 checkAllLabelsVisibility();
+
+window.addEventListener('load', () => {
+    const weatherContainer = document.getElementById('weather-container');
+        // 最初にウィジェットのHTMLコードを記憶しておく
+    const originalWidgetHTML = weatherContainer.innerHTML;
+
+    // ウィジェットを再生成する関数
+    function refreshWeatherWidget() {
+        console.log("天気ウィジェットを更新します...", new Date().toLocaleTimeString());
+        
+        // コンテナの中身を一度空にする
+        weatherContainer.innerHTML = '';
+
+        // 記憶しておいた元のHTMLコードを再度挿入する
+        // これにより、<script>タグが再実行され、ウィジェットが再描画される
+        weatherContainer.innerHTML = originalWidgetHTML;
+    }
+
+    // 10分（600,000ミリ秒）ごとにrefreshWeatherWidget関数を実行
+    setInterval(refreshWeatherWidget, 600000);
+});
+
 });
